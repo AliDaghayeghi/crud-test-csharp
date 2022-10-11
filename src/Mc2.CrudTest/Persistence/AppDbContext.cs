@@ -1,3 +1,4 @@
+using Mc2.CrudTest.Domain.Customers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mc2.CrudTest.Persistence;
@@ -6,8 +7,7 @@ public class AppDbContext : DbContext
 {
     #region DbSets
 
-    // TODO: Implement this part.
-    // public DbSet<Customer> Customers { get; set; }
+    public DbSet<Customer> Customers { get; set; }
 
     #endregion
 
