@@ -1,5 +1,8 @@
+using Mc2.CrudTest.Application.Behaviors;
+using Mc2.CrudTest.Application.Behaviors.Customers;
+using Mc2.CrudTest.Application.Infrastructure.Operations;
+using Mc2.CrudTest.Application.Models.Commands.Customers;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Mc2.CrudTest.Api.Extensions.DependencyInjections;
 
@@ -9,8 +12,14 @@ internal static class MediatRInjection
     {
         services.AddMediatR(typeof(Program));
 
-        // TODO: Implement this part.
-        // services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CommitBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CommitBehavior<,>));
+
+        // Customers
+        services.AddTransient(typeof(IPipelineBehavior<UpdateCustomerCommand, OperationResult>),
+           typeof(UpdateCustomerValidationBehavior<UpdateCustomerCommand, OperationResult>));
+
+        services.AddTransient(typeof(IPipelineBehavior<AddCustomerCommand, OperationResult>),
+           typeof(AddCustomerValidationBehavior<AddCustomerCommand, OperationResult>));
 
         return services;
     }
