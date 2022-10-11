@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Mc2.CrudTest.Application.Interfaces;
+using Mc2.CrudTest.Persistence;
 
 namespace Mc2.CrudTest.Api.Extensions.DependencyInjections;
 
@@ -6,8 +7,7 @@ public static class ServiceInjection
 {
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        // TODO: Implement this part.
-        // services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
     }
