@@ -6,7 +6,7 @@ namespace Mc2.CrudTest.Persistence.EntityConfigurations.Customers;
 
 public class CustomerEntityConfiguration : IEntityTypeConfiguration<Customer>
 {
-    public void Configure(EntityTypeBuilder<Customer> builder)
+    public virtual void Configure(EntityTypeBuilder<Customer> builder)
     {
         builder.HasKey(x => x.Id);
 
