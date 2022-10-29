@@ -5,6 +5,7 @@ using Mc2.CrudTest.Application.Handlers.Customers;
 using Mc2.CrudTest.Application.Interfaces;
 using Mc2.CrudTest.Application.Models.Base.Customers;
 using Mc2.CrudTest.Application.Models.Commands.Customers;
+using Mc2.CrudTest.Application.Validators.Customers;
 using Mc2.CrudTest.Tests.Mocks;
 using Moq;
 using Shouldly;
@@ -34,13 +35,13 @@ public class UpdateCustomerCommandHandlerTests
             DateOfBirth = DateTime.UtcNow.AddYears(-30),
             PhoneNumber = "+14844578895",
             Email = "Sina@test.com",
-            BankAccountNumber = "70149340835549500",
+            BankAccountNumber = "4111111111111111",
         };
+        
+        var validation = await new UpdateCustomerValidator().ValidateAsync(command);
+        validation.IsValid.ShouldBeTrue();
 
         var operation = await handler.Handle(command, CancellationToken.None);
-
-        operation.Value.ShouldBeOfType<CustomerModel>();
-
         operation.Succeeded.ShouldBeTrue();
     }
 
@@ -57,12 +58,11 @@ public class UpdateCustomerCommandHandlerTests
             DateOfBirth = DateTime.UtcNow.AddYears(-30),
             PhoneNumber = "+14844578895",
             Email = "Sina@test.com",
-            BankAccountNumber = "70149675764765835549500",
+            BankAccountNumber = "701496757644356456765835549500",
         };
 
-        var operation = await handler.Handle(command, CancellationToken.None);
-
-        operation.Succeeded.ShouldBeFalse();
+        var validation = await new UpdateCustomerValidator().ValidateAsync(command);
+        validation.IsValid.ShouldBeFalse();
     }
 
     [Fact]
@@ -78,12 +78,11 @@ public class UpdateCustomerCommandHandlerTests
             DateOfBirth = DateTime.UtcNow.AddYears(-30),
             PhoneNumber = "+14844578895",
             Email = "Siyjhcgtescom",
-            BankAccountNumber = "70149340835549500",
+            BankAccountNumber = "4111111111111111",
         };
 
-        var operation = await handler.Handle(command, CancellationToken.None);
-
-        operation.Succeeded.ShouldBeFalse();
+        var validation = await new UpdateCustomerValidator().ValidateAsync(command);
+        validation.IsValid.ShouldBeFalse();
     }
 
     [Fact]
@@ -99,11 +98,13 @@ public class UpdateCustomerCommandHandlerTests
             DateOfBirth = DateTime.UtcNow.AddYears(-30),
             PhoneNumber = "+14844578895",
             Email = "Hadi@test.com",
-            BankAccountNumber = "70149340835549500",
+            BankAccountNumber = "4111111111111111",
         };
 
-        var operation = await handler.Handle(command, CancellationToken.None);
+        var validation = await new UpdateCustomerValidator().ValidateAsync(command);
+        validation.IsValid.ShouldBeTrue();
 
+        var operation = await handler.Handle(command, CancellationToken.None);
         operation.Succeeded.ShouldBeFalse();
     }
 }

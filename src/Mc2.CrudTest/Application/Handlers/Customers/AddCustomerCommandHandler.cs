@@ -20,6 +20,8 @@ public class AddCustomerCommandHandler : IRequestHandler<AddCustomerCommand, Ope
     public async Task<OperationResult> Handle(AddCustomerCommand request,
         CancellationToken cancellationToken)
     {
+        request.Email = request.Email.ToLower();
+        
         var existingCustomer = await _unitOfWork.Customers.GetCustomerByEmailAsync(request.Email);
 
         if (existingCustomer is not null)

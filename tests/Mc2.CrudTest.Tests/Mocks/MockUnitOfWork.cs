@@ -36,7 +36,7 @@ namespace Mc2.CrudTest.Tests.Mocks
                     LastName = "Rezayi",
                     DateOfBirth = DateTime.UtcNow.AddYears(-24),
                     PhoneNumber = "+14845219702",
-                    Email = "Hadi@test.com",
+                    Email = "hadi@test.com",
                     BankAccountNumber = "53153834006064000",
                     IsDeleted = false,
                     CreatedAt = DateTime.UtcNow,
@@ -46,6 +46,9 @@ namespace Mc2.CrudTest.Tests.Mocks
 
             mockUnitOfWork.Setup(x => x.Customers.GetCustomerByIdAsync(It.IsAny<int>()))
                 .ReturnsAsync((int id) => fakeCustomers.SingleOrDefault(x => x.Id == id));
+            
+            mockUnitOfWork.Setup(x => x.Customers.GetCustomerByEmailAsync(It.IsAny<string>()))
+                .ReturnsAsync((string email) => fakeCustomers.SingleOrDefault(x => x.Email == email && !x.IsDeleted));
 
             mockUnitOfWork.Setup(x => x.Customers.Add(It.IsAny<Customer>()))
                 .Callback((Customer customer) => fakeCustomers.Add(customer));

@@ -24,6 +24,8 @@ public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerComman
         if (customer is null)
             return new OperationResult(OperationResultStatus.NotFound,
                 value: CustomerErrors.NotFoundCustomerError);
+        
+        request.Email = request.Email.ToLower();
 
         if (customer.Email != request.Email)
         {
