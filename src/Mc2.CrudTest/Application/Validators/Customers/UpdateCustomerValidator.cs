@@ -1,6 +1,7 @@
 using FluentValidation;
 using Mc2.CrudTest.Application.Models.Commands.Customers;
 using Mc2.CrudTest.Application.ResponseErrors;
+using PhoneNumbers;
 
 namespace Mc2.CrudTest.Application.Validators.Customers;
 
@@ -25,7 +26,8 @@ public class UpdateCustomerValidator : AbstractValidator<UpdateCustomerCommand>
             .WithState(_ => CustomerErrors.InvalidLastNameError);
 
         RuleFor(x => x.PhoneNumber)
-            .MaximumLength(15)
+            .Must(x => x.StartsWith("+") && PhoneNumberUtil.GetInstance()
+                .IsValidNumber(PhoneNumberUtil.GetInstance().Parse(x, "")))
             .WithState(_ => CustomerErrors.InvalidPhoneNumberError)
             .When(x => x.PhoneNumber is not null);
 
